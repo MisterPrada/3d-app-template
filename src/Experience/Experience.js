@@ -103,7 +103,7 @@ export default class Experience
     update()
     {
         if ( this.debug.active )
-            this.debug.debug.refresh()
+            this.debug.panel.refresh()
         this.timeline.time(this.time.elapsed);
         this.camera.update()
         this.world.update()
