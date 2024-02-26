@@ -11,7 +11,7 @@ export default class Time extends EventEmitter
         this.current = this.start
         this.playing = true
         this.elapsed = 0
-        this.delta = 0.016
+        this.delta = 0.016666666666666668
 
         window.requestAnimationFrame(() =>
         {

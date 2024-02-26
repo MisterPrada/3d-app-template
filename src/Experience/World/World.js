@@ -1,10 +1,8 @@
 import Experience from '../Experience.js'
 import Environment from './Environment.js'
 
-export default class World
-{
-    constructor()
-    {
+export default class World {
+    constructor() {
         this.experience = new Experience()
         this.camera = this.experience.camera;
         this.scene = this.experience.scene
@@ -14,33 +12,58 @@ export default class World
         this.debug = this.experience.debug.panel
 
         // Wait for resources
-        this.resources.on('ready', () =>
-        {
-            this.html.playButton.classList.add("fade-in");
-            this.html.playButton.addEventListener('click', () => {
+        this.resources.on( 'ready', () => {
+            //this.startWithPreloader()
+            this.start()
+        } )
+    }
 
-                this.html.playButton.classList.replace("fade-in", "fade-out");
-                //this.sound.createSounds();
+    start() {
+        // hard remove preloader
+        this.html.playButton.classList.replace( "fade-in", "fade-out" );
+        this.html.preloader.classList.add( "preloaded" );
+        this.html.preloader.remove();
+        this.html.playButton.remove();
 
-                setTimeout(() => {
-                    this.experience.time.start = Date.now()
-                    this.experience.time.elapsed = 0
+        this.experience.time.start = Date.now()
+        this.experience.time.elapsed = 0
 
-                    // Setup
-                    this.environment = new Environment()
+        this.setupWorld()
 
-                    // Remove preloader
-                    this.html.preloader.classList.add("preloaded");
-                    setTimeout(() => {
-                        this.html.preloader.remove();
-                        this.html.playButton.remove();
-                    }, 2500);
+        // Animation timeline
+        this.animationPipeline();
+    }
 
-                    // Animation timeline
-                    this.animationPipeline();
-                }, 100);
-            }, { once: true });
-        })
+    setupWorld() {
+        // Setup
+        this.environment = new Environment()
+
+        // Animation timeline
+        this.animationPipeline();
+    }
+
+    startWithPreloader() {
+        this.html.playButton.classList.add( "fade-in" );
+        this.html.playButton.addEventListener( 'click', () => {
+
+            this.html.playButton.classList.replace( "fade-in", "fade-out" );
+            //this.sound.createSounds();
+
+            setTimeout( () => {
+                this.experience.time.start = Date.now()
+                this.experience.time.elapsed = 0
+
+                // Setup
+                this.setupWorld()
+
+                // Remove preloader
+                this.html.preloader.classList.add( "preloaded" );
+                setTimeout( () => {
+                    this.html.preloader.remove();
+                    this.html.playButton.remove();
+                }, 2500 );
+            }, 100 );
+        }, { once: true } );
     }
 
     animationPipeline() {
@@ -55,8 +78,7 @@ export default class World
 
     }
 
-    update()
-    {
+    update() {
 
     }
 }
