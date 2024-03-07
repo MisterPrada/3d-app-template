@@ -1,10 +1,8 @@
 import * as THREE from 'three'
 import Experience from '../Experience.js'
 
-export default class Environment
-{
-    constructor()
-    {
+export default class Environment {
+    constructor() {
         this.experience = new Experience()
         this.scene = this.experience.scene
         this.resources = this.experience.resources
@@ -18,18 +16,17 @@ export default class Environment
     }
 
     setAmbientLight() {
-        this.ambientLight = new THREE.AmbientLight('#ffffff', 0.05)
-        this.scene.add(this.ambientLight)
+        this.ambientLight = new THREE.AmbientLight( '#ffffff', 0.05 )
+        this.scene.add( this.ambientLight )
     }
 
 
-    setEnvironmentMap()
-    {
+    setEnvironmentMap() {
 
     }
 
     setDebug() {
-        if(this.debug.active) {
+        if ( this.debug.active ) {
 
         }
     }

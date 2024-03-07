@@ -18,7 +18,7 @@ export default class Camera
         this.lerpVector = new THREE.Vector3();
 
         this.setInstance()
-        //this.setControls()
+        this.setControls()
     }
 
     setInstance()
@@ -27,7 +27,7 @@ export default class Camera
         this.defaultCameraPosition = new THREE.Vector3(-0.5, 1.5, 4);
 
         this.instance.position.copy(this.defaultCameraPosition)
-        this.instance.lookAt(new THREE.Vector3(0, 1.5, 0));
+        this.instance.lookAt(new THREE.Vector3(0, 0, 0));
 
         this.lerpVector.copy(this.instance.position);
 
@@ -41,7 +41,7 @@ export default class Camera
         this.controls.minDistance = 0;
         this.controls.maxDistance = 500;
         this.controls.enabled = true;
-        this.controls.target = new THREE.Vector3(0, 1.5, 0);
+        this.controls.target = new THREE.Vector3(0, 0, 0);
 
 
         // this.controls.mouseButtons = {
@@ -61,7 +61,7 @@ export default class Camera
 
     update()
     {
-        //this.controls.update()
+        this.controls.update()
 
         //this.instance.updateMatrixWorld() // To be used in projection
     }

@@ -1,5 +1,6 @@
 import Experience from '../Experience.js'
 import Environment from './Environment.js'
+import ExampleClass from "./ExampleClass.js";
 
 export default class World {
     constructor() {
@@ -36,6 +37,7 @@ export default class World {
 
     setupWorld() {
         // Setup
+        this.cube = new ExampleClass()
         this.environment = new Environment()
 
         // Animation timeline
@@ -78,7 +80,7 @@ export default class World {
 
     }
 
-    update() {
+    update( deltaTime ) {
 
     }
 }

@@ -69,6 +69,26 @@ export default class Resources extends EventEmitter
                     }
                 )
             }
+            else if ( source.type === 'videoTexture' ) {
+                let videoElement = document.createElement( 'video' )
+                videoElement.src = source.path
+                videoElement.setAttribute( 'crossorigin', 'anonymous' )
+                videoElement.muted = true
+                videoElement.loop = true
+                videoElement.load()
+                videoElement.setAttribute( 'playsinline', '' )
+                videoElement.setAttribute( 'webkit-playsinline', '' )
+                videoElement.play()
+
+                const obj = {
+                    videoTexture : new THREE.VideoTexture( videoElement ),
+                    videoElement : videoElement
+                }
+
+                videoElement.addEventListener( 'canplaythrough', () => {
+                    this.sourceLoaded( source, obj )
+                } )
+            }
             else if(source.type === 'cubeTexture')
             {
                 this.loaders.cubeTextureLoader.load(

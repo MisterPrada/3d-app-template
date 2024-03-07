@@ -15,13 +15,10 @@ import MotionPathPlugin from "gsap/MotionPathPlugin";
 
 let instance = null
 
-export default class Experience
-{
-    constructor(_canvas)
-    {
+export default class Experience {
+    constructor( _canvas ) {
         // Singleton
-        if(instance)
-        {
+        if ( instance ) {
             return instance
         }
         instance = this
@@ -31,29 +28,28 @@ export default class Experience
 
         // Html Elements
         this.html = {}
-        this.html.preloader = document.getElementById("preloader")
-        this.html.playButton = document.getElementById("play-button")
+        this.html.preloader = document.getElementById( "preloader" )
+        this.html.playButton = document.getElementById( "play-button" )
 
         // Options
         this.targetElement = _canvas
 
-        if(!this.targetElement)
-        {
-            console.warn('Missing \'targetElement\' property')
+        if ( !this.targetElement ) {
+            console.warn( 'Missing \'targetElement\' property' )
             return
         }
 
         // Resources
-        this.resources = new Resources(sources)
+        this.resources = new Resources( sources )
 
         // Options
         THREE.ColorManagement.enabled = false
         this.canvas = _canvas
 
         // Setup
-        this.timeline = gsap.timeline({
+        this.timeline = gsap.timeline( {
             paused: true,
-        });
+        } );
         this.debug = new Debug()
         this.sizes = new Sizes()
         this.time = new Time()
@@ -72,61 +68,55 @@ export default class Experience
         this.setConfig()
 
         // Resize event
-        this.sizes.on('resize', () =>
-        {
+        this.sizes.on( 'resize', () => {
             this.resize()
-        })
+        } )
 
         // Time tick event
-        this.time.on('tick', () =>
-        {
+        this.time.on( 'tick', () => {
             this.update()
             this.debug.stats && this.debug.stats.update();
-        })
+        } )
 
         // Mouse move event
-        window.addEventListener('mousemove', (event) =>
-        {
+        window.addEventListener( 'mousemove', ( event ) => {
             this.cursor.x = event.clientX / this.sizes.width * 2 - 1
-            this.cursor.y = - (event.clientY / this.sizes.height) * 2 + 1
-        })
+            this.cursor.y = -( event.clientY / this.sizes.height ) * 2 + 1
+        } )
     }
 
-    resize()
-    {
+    resize() {
         this.camera.resize()
         this.world.resize()
         this.renderer.resize()
         //this.sound.resize()
     }
 
-    update()
-    {
+    update() {
         if ( this.debug.active )
             this.debug.panel.refresh()
-        this.timeline.time(this.time.elapsed);
-        this.camera.update()
-        this.world.update()
-        this.renderer.update()
+        this.timeline.time( this.time.elapsed );
+        this.camera.update( this.time.delta )
+        this.world.update( this.time.delta )
+        this.renderer.update( this.time.delta )
     }
 
-    setDefaultCode(){
-        document.ondblclick = function (e) {
+    setDefaultCode() {
+        document.ondblclick = function ( e ) {
             e.preventDefault()
         }
 
-        gsap.registerPlugin(MotionPathPlugin);
+        gsap.registerPlugin( MotionPathPlugin );
     }
 
-    setConfig()
-    {
+    setConfig() {
         this.config = {}
 
         // Debug
         this.config.debug = window.location.hash === '#debug'
 
         // Pixel ratio
-        this.config.pixelRatio = Math.min(Math.max(window.devicePixelRatio, 1), 2)
+        this.config.pixelRatio = Math.min( Math.max( window.devicePixelRatio, 1 ), 2 )
 
         // Width and height
         const boundings = this.targetElement.getBoundingClientRect()
@@ -134,37 +124,32 @@ export default class Experience
         this.config.height = boundings.height || window.innerHeight
     }
 
-    destroy()
-    {
-        this.sizes.off('resize')
-        this.time.off('tick')
+    destroy() {
+        this.sizes.off( 'resize' )
+        this.time.off( 'tick' )
 
         // Traverse the whole scene
-        this.scene.traverse((child) =>
-        {
+        this.scene.traverse( ( child ) => {
             // Test if it's a mesh
-            if(child instanceof THREE.Mesh)
-            {
+            if ( child instanceof THREE.Mesh ) {
                 child.geometry.dispose()
 
                 // Loop through the material properties
-                for(const key in child.material)
-                {
-                    const value = child.material[key]
+                for ( const key in child.material ) {
+                    const value = child.material[ key ]
 
                     // Test if there is a dispose function
-                    if(value && typeof value.dispose === 'function')
-                    {
+                    if ( value && typeof value.dispose === 'function' ) {
                         value.dispose()
                     }
                 }
             }
-        })
+        } )
 
         this.camera.controls.dispose()
         this.renderer.instance.dispose()
 
-        if(this.debug.active)
+        if ( this.debug.active )
             this.debug.ui.destroy()
     }
 }
