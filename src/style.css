@@ -199,3 +199,18 @@ body
     transition: opacity 1s ease-out;
 }
 /********************* End Play *********************/
+
+/********************* Gizmo *********************/
+gizmo-helper {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 100000;
+}
+
+gizmo-helper:hover {
+    background: rgba(255, 255, 255, .2);
+    border-radius: 100%;
+    cursor: pointer;
+}
+/********************* End Gizmo *********************/

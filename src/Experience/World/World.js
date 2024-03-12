@@ -1,6 +1,7 @@
 import Experience from '../Experience.js'
 import Environment from './Environment.js'
 import ExampleClass from "./ExampleClass.js";
+import DebugHelpers from "./DebugHelpers.js";
 
 export default class World {
     constructor() {
@@ -39,6 +40,9 @@ export default class World {
         // Setup
         this.cube = new ExampleClass()
         this.environment = new Environment()
+
+        // Add debug helpers
+        this.debugHelpers = new DebugHelpers()
 
         // Animation timeline
         this.animationPipeline();
@@ -81,6 +85,6 @@ export default class World {
     }
 
     update( deltaTime ) {
-
+        this.debugHelpers?.update( deltaTime )
     }
 }

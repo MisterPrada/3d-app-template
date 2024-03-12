@@ -75,7 +75,7 @@ export default class Experience {
         // Time tick event
         this.time.on( 'tick', () => {
             this.update()
-            this.debug.stats && this.debug.stats.update();
+            this.debug?.stats?.update();
         } )
 
         // Mouse move event
@@ -93,8 +93,8 @@ export default class Experience {
     }
 
     update() {
-        if ( this.debug.active )
-            this.debug.panel.refresh()
+        this.debug.active && this.debug.panel.refresh()
+
         this.timeline.time( this.time.elapsed );
         this.camera.update( this.time.delta )
         this.world.update( this.time.delta )
@@ -116,7 +116,7 @@ export default class Experience {
         this.config.debug = window.location.hash === '#debug'
 
         // Pixel ratio
-        this.config.pixelRatio = Math.min( Math.max( window.devicePixelRatio, 1 ), 2 )
+        this.config.pixelRatio = Math.min( window.devicePixelRatio, 2 )
 
         // Width and height
         const boundings = this.targetElement.getBoundingClientRect()
