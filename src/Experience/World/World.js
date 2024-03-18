@@ -2,6 +2,7 @@ import Experience from '../Experience.js'
 import Environment from './Environment.js'
 import ExampleClass from "./ExampleClass.js";
 import DebugHelpers from "./DebugHelpers.js";
+import Preloader from "../Preloader.js";
 
 export default class World {
     constructor() {
@@ -29,6 +30,8 @@ export default class World {
 
         this.experience.time.start = Date.now()
         this.experience.time.elapsed = 0
+
+        this.preloader = new Preloader
 
         this.setupWorld()
 
@@ -86,5 +89,7 @@ export default class World {
 
     update( deltaTime ) {
         this.debugHelpers?.update( deltaTime )
+
+        this.preloader?.update( deltaTime )
     }
 }

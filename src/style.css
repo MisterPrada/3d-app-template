@@ -21,6 +21,16 @@ body
     outline: none;
 }
 
+#webgl-preloader
+{
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 999999;
+}
+
 
 /********************* Preloader CSS *********************/
 
