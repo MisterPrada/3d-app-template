@@ -9,9 +9,9 @@ export default [
     //     type: 'gltfModel',
     //     path: 'models/predator.glb'
     // },
-    // {
-    //     name: 'displacementTexture',
-    //     type: 'texture',
-    //     path: 'textures/displacement.jpg'
-    // }
+    {
+        name: 'displacementTexture',
+        type: 'texture',
+        path: 'textures/displacement.jpg'
+    }
 ]

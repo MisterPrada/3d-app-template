@@ -1,24 +1,28 @@
 import EventEmitter from './EventEmitter.js'
 
-export default class Sizes extends EventEmitter
-{
-    constructor()
-    {
+export default class Sizes extends EventEmitter {
+    constructor() {
+        // Singleton
+        if ( Sizes._instance ) {
+            return Sizes._instance
+        }
+
         super()
+
+        Sizes._instance = this
 
         // Setup
         this.width = window.innerWidth
         this.height = window.innerHeight
-        this.pixelRatio = Math.min(window.devicePixelRatio, 2)
+        this.pixelRatio = Math.min( window.devicePixelRatio, 2 )
 
         // Resize event
-        window.addEventListener('resize', () =>
-        {
+        window.addEventListener( 'resize', () => {
             this.width = window.innerWidth
             this.height = window.innerHeight
-            this.pixelRatio = Math.min(window.devicePixelRatio, 2)
+            this.pixelRatio = Math.min( window.devicePixelRatio, 2 )
 
-            this.trigger('resize')
-        })
+            this.trigger( 'resize' )
+        } )
     }
 }

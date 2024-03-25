@@ -1,9 +1,12 @@
 import * as THREE from 'three'
 import Experience from '../Experience.js'
+import Debug from '../Utils/Debug.js'
+import Properties from "../Properties.js";
 
 export default class ExampleClass {
     experience = new Experience()
-    debug = experience.debug
+    debug = new Debug()
+    properties = new Properties()
     scene = experience.scene
     time = experience.time
     camera = experience.camera.instance
@@ -15,6 +18,7 @@ export default class ExampleClass {
 
     constructor() {
         this.setModel()
+        this.setDebug()
     }
 
     setModel() {
@@ -32,7 +36,9 @@ export default class ExampleClass {
     }
 
     setDebug() {
+        if ( !this.debug.active ) return
 
+        this.debug.createDebugTexture( this.resources.items.displacementTexture )
     }
 
     update( deltaTime ) {

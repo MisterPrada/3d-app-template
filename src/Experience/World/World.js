@@ -2,6 +2,8 @@ import Experience from '../Experience.js'
 import Environment from './Environment.js'
 import ExampleClass from "./ExampleClass.js";
 import DebugHelpers from "./DebugHelpers.js";
+import Properties from "../Properties.js";
+import Support from "../Utils/Support.js";
 
 export default class World {
     constructor() {
@@ -15,6 +17,9 @@ export default class World {
 
         // Wait for resources
         this.resources.on( 'ready', () => {
+            this.properties = new Properties()
+            this.support = new Support()
+
             //this.startWithPreloader()
             this.start()
         } )
@@ -81,7 +86,7 @@ export default class World {
     }
 
     resize() {
-
+        this.properties.resize()
     }
 
     update( deltaTime ) {

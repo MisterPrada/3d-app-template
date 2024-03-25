@@ -12,16 +12,16 @@ import Sound from "./Utils/Sound.js";
 import sources from './sources.js'
 import gsap from "gsap";
 import MotionPathPlugin from "gsap/MotionPathPlugin";
-
-let instance = null
+import Properties from './Properties.js'
+import PostProcess from './Utils/PostProcess.js'
 
 export default class Experience {
     constructor( _canvas ) {
         // Singleton
-        if ( instance ) {
-            return instance
+        if ( Experience._instance ) {
+            return Experience._instance
         }
-        instance = this
+        Experience._instance = this
 
         // Global access
         window.experience = this
@@ -57,8 +57,10 @@ export default class Experience {
         this.scene = new THREE.Scene()
         this.camera = new Camera()
         this.renderer = new Renderer()
+        this.properties = new Properties()
         this.sound = new Sound()
         this.world = new World()
+        this.postProcess = new PostProcess( this.renderer.instance )
 
 
         /**
@@ -89,16 +91,26 @@ export default class Experience {
         this.camera.resize()
         this.world.resize()
         this.renderer.resize()
+        this.postProcess.resize()
+        this.debug.resize()
         //this.sound.resize()
     }
 
     update() {
-        this.debug.active && this.debug.panel.refresh()
-
         this.timeline.time( this.time.elapsed );
         this.camera.update( this.time.delta )
         this.world.update( this.time.delta )
-        this.renderer.update( this.time.delta )
+
+        if ( this.properties.postprocessing ) {
+            this.postProcess.update( this.time.delta )
+        } else {
+            this.renderer.update( this.time.delta )
+        }
+
+        if ( this.debug.active ) {
+            this.debug.panel.refresh()
+            this.debug.update( this.time.delta )
+        }
     }
 
     setDefaultCode() {
